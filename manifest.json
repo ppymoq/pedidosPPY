@@ -1,0 +1,21 @@
+{
+  "short_name": "Broastería PPY",
+  "name": "Broastería PPY - Pedidos",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#fdfbfb",
+  "theme_color": "#f39c12",
+  "display": "standalone",
+  "orientation": "portrait"
+}
