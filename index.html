@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Broastería PPY - Pedidos</title>
+  <style>
+    :root {
+      --primary-color: #f39c12;
+      --whatsapp-color: #25d366;
+      --bg-color: #fdfbfb;
+      --text-color: #333;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      background: transparent;
+      box-sizing: border-box;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-bottom-color: var(--primary-color);
+    }
+
+    .category {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .category-header {
+      padding: 15px;
+      font-weight: bold;
+      color: #e67e22;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .product-list {
+      padding: 10px 15px;
+    }
+
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-qty {
+      background: #eee;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-whatsapp {
+      position: fixed;
+      bottom: 20px;
+      left: 5%;
+      width: 90%;
+      max-width: 460px;
+      background-color: var(--whatsapp-color);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>Broastería PPY</header>
+
+  <div class="container">
+    <!-- Datos del Cliente -->
+    <div class="form-group">
+      <input type="text" id="nombre" placeholder="Tu Nombre" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="direccion" placeholder="Dirección de Entrega" required>
+    </div>
+    <div class="form-group">
+      <input type="tel" id="telefono" placeholder="Nro. de Contacto" required>
+    </div>
+
+    <!-- Menú de Productos -->
+    <div class="category">
+      <div class="category-header">🍗 BROASTER</div>
+      <div class="product-list">
+        <div class="product-item">
+          <span>1/4 de Pollo Broaster</span>
+          <div class="quantity-controls">
+            <button class="btn-qty" onclick="changeQty('broaster_14', -1)">-</button>
+            <span id="broaster_14">0</span>
+            <button class="btn-qty" onclick="changeQty('broaster_14', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-header">🍚 MOSTRITO</div>
+      <div class="product-list">
+        <div class="product-item">
+          <span>Mostrito Personal</span>
+          <div class="quantity-controls">
+            <button class="btn-qty" onclick="changeQty('mostrito_p', -1)">-</button>
+            <span id="mostrito_p">0</span>
+            <button class="btn-qty" onclick="changeQty('mostrito_p', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-header">🔥 OFERTONES</div>
+      <div class="product-list">
+        <div class="product-item">
+          <span>Combo Familiar</span>
+          <div class="quantity-controls">
+            <button class="btn-qty" onclick="changeQty('combo_fam', -1)">-</button>
+            <span id="combo_fam">0</span>
+            <button class="btn-qty" onclick="changeQty('combo_fam', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category">
+      <div class="category-header">🍟 SALCHIBROASTER</div>
+      <div class="product-list">
+        <div class="product-item">
+          <span>Salchibroaster Clásica</span>
+          <div class="quantity-controls">
+            <button class="btn-qty" onclick="changeQty('salchi_c', -1)">-</button>
+            <span id="salchi_c">0</span>
+            <button class="btn-qty" onclick="changeQty('salchi_c', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-whatsapp" onclick="enviarPedido()">
+    ENVIAR PEDIDO POR WHATSAPP
+  </button>
+
+  <script>
+    const carrito = {
+      broaster_14: { nombre: "1/4 de Pollo Broaster", cantidad: 0 },
+      mostrito_p: { nombre: "Mostrito Personal", cantidad: 0 },
+      combo_fam: { nombre: "Combo Familiar", cantidad: 0 },
+      salchi_c: { nombre: "Salchibroaster Clásica", cantidad: 0 }
+    };
+
+    function changeQty(id, delta) {
+      carrito[id].cantidad = Math.max(0, carrito[id].cantidad + delta);
+      document.getElementById(id).innerText = carrito[id].cantidad;
+    }
+
+    function enviarPedido() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const direccion = document.getElementById('direccion').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+
+      if (!nombre || !direccion || !telefono) {
+        alert("Por favor completa tus datos de contacto y entrega.");
+        return;
+      }
+
+      let detallePedido = "";
+      for (const key in carrito) {
+        if (carrito[key].cantidad > 0) {
+          detallePedido += `- ${carrito[key].cantidad}x ${carrito[key].nombre}\n`;
+        }
+      }
+
+      if (detallePedido === "") {
+        alert("Por favor selecciona al menos un producto.");
+        return;
+      }
+
+      // Reemplaza con tu número de teléfono con código de país (Ejemplo Perú: 51XXXXXXXXX)
+      const numeroWhatsApp = "51900000000"; 
+
+      const mensaje = `*NUEVO PEDIDO - BROASTERÍA PPY*\n\n` +
+                      `*Cliente:* ${nombre}\n` +
+                      `*Teléfono:* ${telefono}\n` +
+                      `*Dirección:* ${direccion}\n\n` +
+                      `*Detalle del pedido:*\n${detallePedido}`;
+
+      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
