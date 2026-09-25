@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#f39c12">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Broastería PPY - Pedidos</title>
@@ -11,7 +14,7 @@
       --bg-color: #fdfbfb;
       --text-color: #333;
     }
-
+    
     body {
       font-family: Arial, sans-serif;
       background-color: var(--bg-color);
@@ -248,5 +251,12 @@
       window.open(url, '_blank');
     }
   </script>
-</body>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker registrado con éxito', reg))
+      .catch(err => console.log('Error al registrar Service Worker', err));
+  });
+  }
+ </body>
 </html>
